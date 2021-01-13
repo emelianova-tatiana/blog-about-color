@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Blog</title>
+        <link rel="stylesheet" href="style_blog.css">
+        <link href="https://fonts.googleapis.com/css2?family=Xanh+Mono&display=swap" rel="stylesheet">
+        <link rel="icon" href="fill-color.png">
+    </head>
+    <body>
+        <header>
+            <div class="header_title">
+                <p>
+                    <a href="index.html">
+                     <b>ABOUT COLOR</b>
+                     </a>
+                 </p>
+            </div>
+            <div class="header_menu">
+                <p>About Us</p>
+                <p>
+                    <a href="blog.html">
+                        Blog</a>
+                </p>
+                <p>Reference</p>
+            </div>
+            <div class="header_socials">
+                <img src="telegram.svg">
+                <img src="whatsapp.svg">
+                <img src="vk.svg">
+            </div>
+        </header>
+        <main>
+            <div class="header_main_menu">
+                <p>About Us</p>
+                <p>Blog</p>
+                <p>Reference</p>
+            </div>
+            <div class="form publication">
+                <p>Title</p>
+                <textarea class="title" placeholder="Title" cols="10" wrap="hard"></textarea>
+                <p>Preview Text</p>
+                <textarea class="previewText" placeholder="Preview Text" cols="10" wrap="hard"></textarea>
+                <p>Full Text</p>
+                <textarea class="fullText" placeholder="Full Text" cols="10" wrap="hard"></textarea>
+                <p>Slug</p>
+                <textarea class="slug" placeholder="Slug" cols="10" wrap="hard"></textarea>
+                <button class="button"><b>Publish</b></button>
+            </div>
+            <div class="blog publication">
+            </div>
+        </main>
+        <script>
+            async function getFetch() {
+
+                let response = await fetch("http://localhost:5000/api/v1/posts");
+                let json = await response.json();
+
+                getElement(json.posts);
+            }
+
+            function getElement(posts) {
+
+                let result = "";
+
+                for (let i = 0; i < posts.length; i++) {
+
+                    let title = posts[i].title;
+                    let previewText = posts[i].previewText;
+                    let fullText = posts[i].fullText;
+                    let publishDateTime = posts[i].publishDateTime;
+                    let date = new Date(publishDateTime);
+                    let stringDate = date.toLocaleDateString("ru-RU");
+
+                    let element = `<div class="element"><h1>${stringDate}</h1><h3>${title}</h3><div class="preview">${previewText}</div><div class="text">${fullText}</div></div>`;
+
+                    result += element;
+                }
+                document.getElementsByClassName('blog')[0].innerHTML = result;
+            }
+
+            document.getElementsByClassName('button')[0].onclick = async function() {
+
+                let title = document.getElementsByClassName('title')[0];
+                let previewText = document.getElementsByClassName('previewText')[0];
+                let fullText = document.getElementsByClassName('fullText')[0];
+                let slug = document.getElementsByClassName('slug')[0];
+    
+                let post = {};
+                post.slug = slug.value;
+                post.title = title.value;
+                post.previewText = previewText.value;
+                post.fullText = fullText.value;
+                console.log(post);
+                console.log(JSON.stringify(post));
+                let response = await fetch("http://localhost:5000/api/v1/posts", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(post)
+                    })
+            }
+            
+            document.onkeyup = function() {
+
+                let title = document.getElementsByClassName('title')[0];
+                let previewText = document.getElementsByClassName('previewText')[0];
+                let fullText = document.getElementsByClassName('fullText')[0];
+                let slug = document.getElementsByClassName('slug')[0];
+    
+                localStorage.setItem("slug", slug.value);
+                localStorage.setItem("title", title.value);
+                localStorage.setItem("previewText", previewText.value);
+                localStorage.setItem("fullText", fullText.value);
+            }
+            
+            let title = document.getElementsByClassName('title')[0];
+            let previewText = document.getElementsByClassName('previewText')[0];
+            let fullText = document.getElementsByClassName('fullText')[0];
+            let slug = document.getElementsByClassName('slug')[0];
+            slug.value = localStorage.getItem("slug");
+            title.value = localStorage.getItem("title");
+            previewText.value = localStorage.getItem("previewText");
+            fullText.value = localStorage.getItem("fullText");
+    
+            getFetch();
+    
+        </script>
+    </body>
+</html>
