@@ -1,7 +1,7 @@
 body {
     width: 100%;
     margin: 0;
-    background: url(pool.jpg) no-repeat center center fixed;
+    background: url(pictures/pool.jpg) no-repeat center center fixed;
     background-size: cover;
     font-family: 'Xanh Mono', monospace;
     font-size: 34px;
@@ -21,16 +21,11 @@ a {
     color: rgb(255, 255, 255);
 }
 textarea {
-    height: 1.7em;
+    height: 1.2em;
     margin: 10px 0;
     font-family: 'Xanh Mono', monospace;
-    font-size: 24px;
+    font-size: 20px;
     resize: none;
-}
-@media only screen and (max-width: 700px) {
-    input {
-        font-size: 20px;
-    }
 }
 button {
     width: 200px;
@@ -155,8 +150,17 @@ header {
     display: flex;
     flex-direction: column;
 }
+.hidden_form {
+    display: none;
+}
 .form p {
-    font-size: 28px;
+    font-size: 24px;
+}
+.form_previewText {
+    height: 2.4em;
+}
+.form_fullText {
+    height: 4.8em;
 }
 .publication {
     width: 50%;
@@ -186,6 +190,7 @@ header {
 }
 .element {
     width: 94%;
+    display: flex;
     margin: 20px 0;
     padding: 20px;
     border: 1px solid rgb(255, 255, 255);
@@ -209,6 +214,9 @@ header {
         width: 80%;
     }
 }
+.element div {
+    width: 90%;
+}
 h1 {
     font-size: 20px;
 }
@@ -217,7 +225,15 @@ h3 {
 }
 .preview {
     font-size: 20px;
+    white-space: pre;
 }
-.text {
+/* .text класс для fullText */
+.text { 
     font-size: 20px;
+}
+.trash {
+    width: 40px;
+    height: 100%;
+    filter: invert(100%);
+    cursor: pointer;
 }
