@@ -1,154 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Blog</title>
-        <link rel="stylesheet" href="style_blog.css">
-        <link href="https://fonts.googleapis.com/css2?family=Xanh+Mono&display=swap" rel="stylesheet">
-        <link rel="icon" href="pictures/fill-color.png">
-    </head>
-    <body>
-        <header>
-            <div class="header_title">
-                <p><a href="index.html"><b>ABOUT COLOR</b></a></p>
-            </div>
-            <div class="header_menu">
-                <p><a href="test.html">Test</a></p>
-                <p><a href="blog.html">Blog</a></p>
-                <p><a href="reference.html">Reference</a></p>
-            </div>
-            <div class="header_socials">
-                <img src="pictures/telegram.svg">
-                <img src="pictures/whatsapp.svg">
-                <img src="pictures/vk.svg">
-            </div>
-        </header>
-        <main>
-            <div class="header_main_menu">
-                <p><a href="test.html">Test</a></p>
-                <p><a href="blog.html">Blog</a></p>
-                <p><a href="reference.html">Reference</a></p>
-            </div>
-            <div class="form publication">
-                <p>Title</p>
-                <textarea class="form_title" placeholder="Title" cols="10" wrap="hard" required></textarea>
-                <p>Preview Text</p>
-                <textarea class="form_previewText" placeholder="Preview Text" cols="10" wrap="hard" required></textarea>
-                <p>Full Text</p>
-                <textarea class="form_fullText" placeholder="Full Text" cols="10" wrap="hard" required></textarea>
-                <p>Slug</p>
-                <textarea class="form_slug" placeholder="Slug" cols="10" wrap="hard"></textarea>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Blog</title>
+    <link rel="stylesheet" href="style_blog.css">
+    <link href="https://fonts.googleapis.com/css2?family=Xanh+Mono&display=swap" rel="stylesheet">
+    <link rel="icon" href="pictures/fill-color.png">
+</head>
+
+<body>
+    <header>
+        <div class="header_title">
+            <p><a href="index.html"><b>ABOUT COLOR</b></a></p>
+        </div>
+        <div class="header_menu">
+            <p><a href="test.html">Test</a></p>
+            <p><a href="blog.html">Blog</a></p>
+            <p><a href="reference.html">Reference</a></p>
+        </div>
+        <div class="header_socials">
+            <img src="pictures/telegram.svg">
+            <img src="pictures/whatsapp.svg">
+            <img src="pictures/vk.svg">
+        </div>
+    </header>
+    <main>
+        <div class="header_main_menu">
+            <p><a href="test.html">Test</a></p>
+            <p><a href="blog.html">Blog</a></p>
+            <p><a href="reference.html">Reference</a></p>
+        </div>
+        <div class="form publication">
+            <p>Title</p>
+            <textarea class="form_title" placeholder="Title" wrap="soft" required></textarea>
+            <p>Preview Text</p>
+            <textarea class="form_previewText" placeholder="Preview Text" wrap="soft" required></textarea>
+            <p>Full Text</p>
+            <textarea class="form_fullText" placeholder="Full Text" wrap="soft" required></textarea>
+            <p>Slug</p>
+            <textarea class="form_slug" placeholder="Slug" wrap="soft" required></textarea>
+            <div class="form_button">
                 <button class="button"><b>Publish</b></button>
+                <div class="success">Post published!</div>
+                <div class="failure">Post unpublished!</div>
             </div>
-            <div class="blog publication">
-            </div>
-        </main>
-        <script>
-            
-            if (window.location.search !== "?admin=true") {
-                let form = document.getElementsByClassName('form')[0];
-                form.classList.add('hidden_form');
-            }
+        </div>
+        <div class="blog publication"></div>
+    </main>
+    <script>
 
-            async function getFetch() {
+        if (window.location.search !== "?admin=true") {
+            let form = document.getElementsByClassName('form')[0];
+            form.classList.add('hidden_form');
+        }
 
-                let response = await fetch("http://localhost:5000/api/v1/posts");
-                let json = await response.json();
+        async function getFetch() {
 
-                getElement(json.posts);
-            }
+            let response = await fetch("http://localhost:5000/api/v1/posts");
+            let json = await response.json();
 
-            function getElement(posts) {
+            getElement(json.posts);
+        }
 
-                let result = "";
+        function getElement(posts) {
 
-                for (let i = 0; i < posts.length; i++) {
+            let result = "";
 
-                    let title = posts[i].title;
-                    let previewText = posts[i].previewText;
-                    let fullText = posts[i].fullText;
-                    let publishDateTime = posts[i].publishDateTime;
-                    let date = new Date(publishDateTime);
-                    let stringDate = date.toLocaleDateString("ru-RU");
-                    let slug = posts[i].slug;
+            for (let i = 0; i < posts.length; i++) {
 
-                    let element = `<div class="element">
+                let title = posts[i].title;
+                let previewText = posts[i].previewText;
+                let fullText = posts[i].fullText;
+                let publishDateTime = posts[i].publishDateTime;
+                let date = new Date(publishDateTime);
+                let stringDate = date.toLocaleDateString("ru-RU");
+                let slug = posts[i].slug;
+
+                let element = `<div class="element">
                             <div>
-                                <h1>${stringDate}</h1>
+                                <div class="date_trash">
+                                    <h1>${stringDate}</h1>
+                                    <img src="pictures/trash.png" class="trash" data-slug="${slug}">
+                                </div>
                                 <h3>${title}</h3>
                                 <div class="preview">${previewText}</div>
-                                <a href="post.html?slug=${slug}">Read more...</a>
+                                <a href="post.html?slug=${slug}" class="slug">Read more...</a>
                             </div>
-                            <img src="pictures/trash.png" class="trash" data-slug="${slug}">
                         </div>`;
 
-                    result += element;
-                }
-                document.getElementsByClassName('blog')[0].innerHTML = result;
+                result += element;
+            }
+            document.getElementsByClassName('blog')[0].innerHTML = result;
 
-                for (let elementTrash of document.getElementsByClassName('trash')) {
-                    elementTrash.onclick = async function(event) {
-                        let slug = event.target.dataset.slug;
-                        let response = await fetch(`http://localhost:5000/api/v1/posts/${slug}`, {
-                            method: 'DELETE'
-                        })
-                        window.location.reload();
-                    }
+            for (let elementTrash of document.getElementsByClassName('trash')) {
+                elementTrash.onclick = async function (event) {
+                    let slug = event.target.dataset.slug;
+                    let response = await fetch(`http://localhost:5000/api/v1/posts/${slug}`, {
+                        method: 'DELETE'
+                    })
+                    window.location.reload();
                 }
             }
+        }
 
-            document.getElementsByClassName('button')[0].onclick = async function() {
+        document.getElementsByClassName('button')[0].onclick = async function () {
 
-                let title = document.getElementsByClassName('form_title')[0];
-                let previewText = document.getElementsByClassName('form_previewText')[0];
-                let fullText = document.getElementsByClassName('form_fullText')[0];
-                let slug = document.getElementsByClassName('form_slug')[0];
-    
-                let post = {};
-                post.slug = slug.value;
-                post.title = title.value;
-                post.previewText = previewText.value;
-                post.fullText = fullText.value;
+            let title = document.getElementsByClassName('form_title')[0];
+            let previewText = document.getElementsByClassName('form_previewText')[0];
+            let fullText = document.getElementsByClassName('form_fullText')[0];
+            let slug = document.getElementsByClassName('form_slug')[0];
 
+            let post = {};
+            post.slug = slug.value;
+            post.title = title.value;
+            post.previewText = previewText.value;
+            post.fullText = fullText.value;
+
+            try {
                 let response = await fetch("http://localhost:5000/api/v1/posts", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(post)
-                    })
-                window.location.reload();
-                slug.value = localStorage.clear("slug");
-                title.value = localStorage.clear("title");
-                previewText.value = localStorage.clear("previewText");
-                fullText.value = localStorage.clear("fullText");
+                })
+            } catch {
+                let failure = document.getElementsByClassName('failure')[0];
+                failure.classList.add('opaque');
+                setTimeout(() => failure.classList.remove('opaque'), 2000);
+                return;
             }
-            
-            document.onkeyup = function() {
+            let success = document.getElementsByClassName('success')[0];
+            success.classList.add('opaque');
+            setTimeout(() => success.classList.remove('opaque'), 2000);
 
-                let title = document.getElementsByClassName('form_title')[0];
-                let previewText = document.getElementsByClassName('form_previewText')[0];
-                let fullText = document.getElementsByClassName('form_fullText')[0];
-                let slug = document.getElementsByClassName('form_slug')[0];
-    
-                localStorage.setItem("slug", slug.value);
-                localStorage.setItem("title", title.value);
-                localStorage.setItem("previewText", previewText.value);
-                localStorage.setItem("fullText", fullText.value);
-            }
-            
+            setTimeout(() => window.location.reload(), 3000);
+            slug.value = localStorage.clear("slug");
+            title.value = localStorage.clear("title");
+            previewText.value = localStorage.clear("previewText");
+            fullText.value = localStorage.clear("fullText");
+        }
+
+        document.onkeyup = function () {
+
             let title = document.getElementsByClassName('form_title')[0];
             let previewText = document.getElementsByClassName('form_previewText')[0];
             let fullText = document.getElementsByClassName('form_fullText')[0];
             let slug = document.getElementsByClassName('form_slug')[0];
-            slug.value = localStorage.getItem("slug");
-            title.value = localStorage.getItem("title");
-            previewText.value = localStorage.getItem("previewText");
-            fullText.value = localStorage.getItem("fullText");
-    
-            getFetch();
-            
-        </script>
-    </body>
+
+            localStorage.setItem("slug", slug.value);
+            localStorage.setItem("title", title.value);
+            localStorage.setItem("previewText", previewText.value);
+            localStorage.setItem("fullText", fullText.value);
+        }
+
+        let title = document.getElementsByClassName('form_title')[0];
+        let previewText = document.getElementsByClassName('form_previewText')[0];
+        let fullText = document.getElementsByClassName('form_fullText')[0];
+        let slug = document.getElementsByClassName('form_slug')[0];
+        slug.value = localStorage.getItem("slug");
+        title.value = localStorage.getItem("title");
+        previewText.value = localStorage.getItem("previewText");
+        fullText.value = localStorage.getItem("fullText");
+
+        getFetch();
+
+    </script>
+</body>
+
 </html>

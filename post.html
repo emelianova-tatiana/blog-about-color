@@ -1,40 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- <title></title> -->
-        <link rel="stylesheet" href="post_style.css">
-        <link href="https://fonts.googleapis.com/css2?family=Xanh+Mono&display=swap" rel="stylesheet">
-        <link rel="icon" href="pictures/fill-color.png">
-    </head>
-    <body>
-        <header>
-            <div class="header_title">
-                <p><a href="index.html"><b>ABOUT COLOR</b></a></p>
-            </div>
-            <div class="header_menu">
-                <p><a href="test.html">Test</a></p>
-                <p><a href="blog.html">Blog</a></p>
-                <p><a href="reference.html">Reference</a></p>
-            </div>
-            <div class="header_socials">
-                <img src="pictures/telegram.svg">
-                <img src="pictures/whatsapp.svg">
-                <img src="pictures/vk.svg">
-            </div>
-        </header>
-        <main>
-            <div class="header_main_menu">
-                <p><a href="test.html">Test</a></p>
-                <p><a href="blog.html">Blog</a></p>
-                <p><a href="reference.html">Reference</a></p>
-            </div>
-        </main>
-        <script>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <title></title> -->
+    <link rel="stylesheet" href="post_style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Xanh+Mono&display=swap" rel="stylesheet">
+    <link rel="icon" href="pictures/fill-color.png">
+</head>
+
+<body>
+    <header>
+        <div class="header_title">
+            <p><a href="index.html"><b>ABOUT COLOR</b></a></p>
+        </div>
+        <div class="header_menu">
+            <p><a href="test.html">Test</a></p>
+            <p><a href="blog.html">Blog</a></p>
+            <p><a href="reference.html">Reference</a></p>
+        </div>
+        <div class="header_socials">
+            <img src="pictures/telegram.svg">
+            <img src="pictures/whatsapp.svg">
+            <img src="pictures/vk.svg">
+        </div>
+    </header>
+    <main>
+        <div class="header_main_menu">
+            <p><a href="test.html">Test</a></p>
+            <p><a href="blog.html">Blog</a></p>
+            <p><a href="reference.html">Reference</a></p>
+        </div>
+        <div class="post"></div>
+    </main>
+    <script>
+       
+        async function fetchAndFillPost() {
             let string = window.location.search;
-            let result = string.slice(6);
-            alert(result);
-        </script>
-    </body>
+            let slug = string.slice(6);
+            let response = await fetch(`http://localhost:5000/api/v1/posts/${slug}`);
+            let json = await response.json();
+            
+
+            fillPost(json);
+        }
+
+        function fillPost(post) {
+
+            let title = post.title;
+            let fullText = post.fullText;
+            let publishDateTime = post.publishDateTime;
+            let date = new Date(publishDateTime);
+            let stringDate = date.toLocaleDateString("ru-RU");
+
+            let element = `<div class="element">
+                <div>
+                    <h1>${stringDate}</h1>
+                    <h3>${title}</h3>
+                    <div class="fullText">${fullText}</div>
+                    <a href="blog.html" class="link">Back to the main page</a>
+                </div>
+            </div>`;
+
+            document.getElementsByClassName('post')[0].innerHTML = element;
+        }
+        
+        fetchAndFillPost();
+    </script>
+</body>
+
 </html>

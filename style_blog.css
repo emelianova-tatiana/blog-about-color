@@ -30,7 +30,6 @@ textarea {
 button {
     width: 200px;
     height: 70px;
-    margin: 60px auto 0;
     background-color: rgb(0, 0, 0);
     font-family: 'Xanh Mono', monospace;
     font-size: 26px;
@@ -43,14 +42,12 @@ button {
 }
 @media only screen and (max-width: 950px) {
     button {
-        margin: 40px auto 0;
         font-size: 20px;
     }
 }
 @media only screen and (max-width: 800px) {
     button {
         width: 30%;
-        margin: 30px auto 0;
         font-size: 18px;
     }
 }
@@ -156,11 +153,45 @@ header {
 .form p {
     font-size: 24px;
 }
+.form_title {
+    word-wrap: break-word;
+}
 .form_previewText {
     height: 2.4em;
+    word-wrap: break-word;
 }
 .form_fullText {
     height: 4.8em;
+    word-wrap: break-word;
+}
+.form_button {
+    width: 90%;
+    display: flex;
+    justify-content: space-around;
+    margin: 60px auto 0;
+}
+@media only screen and (max-width: 950px) {
+    .form_button {
+        margin: 40px auto 0;
+    }
+}
+@media only screen and (max-width: 800px) {
+    .form_button {
+        margin: 30px auto 0;
+    }
+}
+.success {
+    display: none;
+    font-size: 30px;
+    color: rgb(101, 245, 101)
+}
+.failure {
+    display: none;
+    font-size: 30px;
+    color: rgb(248, 110, 110);
+}
+.opaque {
+    display: block;
 }
 .publication {
     width: 50%;
@@ -175,17 +206,11 @@ header {
         width: 50%;
     }
 }
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 700px) {
     .publication {
-        width: 60%;
-        margin: 30px 32% 0;
-        padding: 10px 16px 20px 16px;
-    }
-}
-@media only screen and (max-width: 400px) {
-    .publication {
-        width: 70%;
+        width: 80%;
         margin: 30px auto 0;
+        padding: 10px 16px 20px 16px;
     }
 }
 .element {
@@ -214,8 +239,9 @@ header {
         width: 80%;
     }
 }
-.element div {
-    width: 90%;
+.date_trash {
+    display: flex;
+    justify-content: space-between;
 }
 h1 {
     font-size: 20px;
@@ -223,17 +249,40 @@ h1 {
 h3 {
     font-size: 28px;
 }
-.preview {
-    font-size: 20px;
-    white-space: pre;
+@media only screen and (max-width: 950px) {
+    h3 {
+        font-size: 26px;
+    }
 }
-/* .text класс для fullText */
+@media only screen and (max-width: 400px) {
+    h3 {
+        font-size: 20px;
+    }
+}
+.preview {
+    margin-bottom: 20px;
+    font-size: 20px;
+    white-space: pre-wrap;
+}
 .text { 
     font-size: 20px;
+}
+@media only screen and (max-width: 400px) {
+    .text {
+        font-size: 16px;
+    }
 }
 .trash {
     width: 40px;
     height: 100%;
     filter: invert(100%);
     cursor: pointer;
+}
+@media only screen and (max-width: 400px) {
+    .trash {
+        width: 30px;
+    }
+}
+.slug {
+    font-weight: bolder;
 }
